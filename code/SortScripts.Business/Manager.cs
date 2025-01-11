@@ -67,7 +67,7 @@ namespace SortScripts.Business
                     continue;
                 }
 
-                orderedList = ReOrderTables.ReOrder(_Logger, fileNames, "fileName", dependencies, out List<Message> messages);
+                orderedList = ReOrderTables.ReOrder(_Logger, fileNames, fileName, dependencies, out List<Message> messages);
 
                 foreach (var message in messages)
                 {
