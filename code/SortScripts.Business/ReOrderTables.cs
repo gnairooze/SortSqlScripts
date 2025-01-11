@@ -15,7 +15,7 @@ namespace SortScripts.Business
             //If the files list is null or empty, a warning message is added to messages, and an empty list is returned.
             if (files == null || files.Count == 0)
             {
-                logger.Debug("2. No files to reorder");
+                logger.Warning("2. No files to reorder");
 
                 messages.Add(new()
                 {
@@ -41,7 +41,7 @@ namespace SortScripts.Business
                 //If the file is not found in files, a warning message is added, and the loop continues to the next file.
                 if (!files.Contains(file))
                 {
-                    logger.Debug($"3.{counter}.2. File {file} not found in the list of files");
+                    logger.Warning($"3.{counter}.2. File {file} not found in the list of files");
 
                     messages.Add(new()
                     {
