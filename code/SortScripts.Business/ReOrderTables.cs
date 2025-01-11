@@ -38,8 +38,10 @@ namespace SortScripts.Business
             {
                 logger.Debug($"3.{counter}.1. Reordering started for dependency {file}");
 
+                var dependentFileName = files.FirstOrDefault(f => f.Contains($"{file}.", StringComparison.OrdinalIgnoreCase));
+
                 //If the file is not found in files, a warning message is added, and the loop continues to the next file.
-                if (!files.Contains(file))
+                if (string.IsNullOrEmpty(dependentFileName))
                 {
                     logger.Warning($"3.{counter}.2. File {file} not found in the list of files");
 
@@ -55,12 +57,12 @@ namespace SortScripts.Business
                 }
 
                 //If the file position is the same as currentPosition, the loop continues to the next file.
-                if (files.IndexOf(file) == currentPosition)
+                if (files.IndexOf(dependentFileName) == currentPosition)
                 {
-                    logger.Debug($"3.{counter}.3. File {file} is already at position {currentPosition}. It is dependant on itself.");
+                    logger.Debug($"3.{counter}.3. File {dependentFileName} is already at position {currentPosition}. It is dependant on itself.");
 
                     messages.Add(new() {
-                        Text = $"File {file} is already at position {currentPosition}. It is dependant on itself.",
+                        Text = $"File {dependentFileName} is already at position {currentPosition}. It is dependant on itself.",
                         Type = Message.MessageTypes.Info,
                         Success = true,
                         Code = MessageCodes.FileAlreadyAtPosition
@@ -69,18 +71,18 @@ namespace SortScripts.Business
                 }
 
                 //If the file's current index is greater than currentPosition, the file is removed from its current position and inserted at currentPosition. An informational message is added to messages.
-                if (files.IndexOf(file) > currentPosition)
+                if (files.IndexOf(dependentFileName) > currentPosition)
                 {
-                    logger.Debug($"3.{counter}.4. File {file} position is greater than the current position {currentPosition}");
+                    logger.Debug($"3.{counter}.4. File {dependentFileName} position is greater than the current position {currentPosition}");
 
-                    files.Remove(file);
-                    files.Insert(currentPosition, file);
+                    files.Remove(dependentFileName);
+                    files.Insert(currentPosition, dependentFileName);
 
-                    logger.Debug($"3.{counter}.5. File {file} moved to position {currentPosition}");
+                    logger.Debug($"3.{counter}.5. File {dependentFileName} moved to position {currentPosition}");
 
                     messages.Add(new Message()
                     {
-                        Text = $"File {file} moved to position {currentPosition}",
+                        Text = $"File {dependentFileName} moved to position {currentPosition}",
                         Type = Message.MessageTypes.Info,
                         Success = true,
                         Code = MessageCodes.FileMoved

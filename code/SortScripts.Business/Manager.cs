@@ -3,10 +3,11 @@ using Serilog;
 
 namespace SortScripts.Business
 {
-    public class Manager (IReadFiles readFiles, IWriteFiles writeFiles, ILogger logger)
+    public class Manager (IReadFiles readFiles, IWriteFiles writeFiles, IDeleteFiles deleteFiles, ILogger logger)
     {
         private readonly IReadFiles _ReadFiles = readFiles;
         private readonly IWriteFiles _WriteFiles = writeFiles;
+        private readonly IDeleteFiles _DeleteFiles = deleteFiles;
         private readonly ILogger _Logger = logger;
         private int ReOrderFileNamesCount = 0;
 
@@ -14,16 +15,19 @@ namespace SortScripts.Business
         {
             _Logger.Debug("1. Run started");
 
+            _DeleteFiles.DeleteFiles();
+            _Logger.Debug("2. Files deleted");
+
             var fileNames = _ReadFiles.GetFileNames();
-            _Logger.Debug($"2. Found {fileNames.Count} files to reorder");
+            _Logger.Debug($"3. Found {fileNames.Count} files to reorder");
 
             var reOrderedList = ReOrderFileNames(fileNames);
 
-            _Logger.Debug($"3. files reordered");
+            _Logger.Debug($"4. files reordered");
 
             var digitsLength = reOrderedList.Count.ToString().Length;
 
-            _Logger.Debug($"4. Digits length: {digitsLength}");
+            _Logger.Debug($"5. Digits length: {digitsLength}");
 
             for (int i = 0; i < reOrderedList.Count; i++)
             {
@@ -33,10 +37,10 @@ namespace SortScripts.Business
                 fileName = $"{countPrefix}-{fileName}";
                 _WriteFiles.WriteFile(fileName, fileContent);
 
-                _Logger.Debug($"5.{i + 1}. File {fileName} written");
+                _Logger.Debug($"6.{i + 1}. File {fileName} written");
             }
 
-            _Logger.Debug("6. Run completed");
+            _Logger.Debug("7. Run completed");
         }
 
         private List<string> ReOrderFileNames(List<string> fileNames)

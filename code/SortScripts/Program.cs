@@ -33,8 +33,9 @@ Console.WriteLine($"{DateTime.UtcNow} - sort scripts options initialized. Sripts
 
 IReadFiles readFiles = new Read(logger, scriptsPath, filter);
 IWriteFiles writeFiles = new Write(logger, outputPath);
+IDeleteFiles deleteFiles = new Delete(logger, outputPath);
 
-var manager = new Manager(readFiles, writeFiles, logger);
+var manager = new Manager(readFiles, writeFiles, deleteFiles, logger);
 
 logger.Information("1. SortScripts business manager started");
 

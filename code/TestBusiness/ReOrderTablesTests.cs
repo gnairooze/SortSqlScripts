@@ -59,7 +59,7 @@ namespace TestBusiness
             // Arrange
             List<string> files = ["file1.sql", "file2.sql", "file3.sql"];
             var currentFile = "file2.sql";
-            List<string> filesToBeReOrdered = ["file3.sql"];
+            List<string> filesToBeReOrdered = ["file3"];
 
             // Act
             var result = ReOrderTables.ReOrder(_Logger, files, currentFile, filesToBeReOrdered, out List<Message> messages);
@@ -77,7 +77,7 @@ namespace TestBusiness
             // Arrange
             List<string> files = ["file1.sql", "file2.sql", "file3.sql"];
             var currentFile = "file2.sql";
-            List<string> filesToBeReOrdered = ["file3.sql", "file1.sql"];
+            List<string> filesToBeReOrdered = ["file3", "file1"];
 
             // Act
             var result = ReOrderTables.ReOrder(_Logger, files, currentFile, filesToBeReOrdered, out List<Message> messages);
